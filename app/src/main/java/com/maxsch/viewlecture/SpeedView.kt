@@ -11,6 +11,9 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AnticipateOvershootInterpolator
+import android.view.animation.BounceInterpolator
 import android.view.animation.DecelerateInterpolator
 
 class SpeedView @JvmOverloads constructor(
@@ -68,12 +71,12 @@ class SpeedView @JvmOverloads constructor(
         canvas.save()
         canvas.translate(width / 2, height)
         canvas.scale(.5f * width, -1f * height)
-        paint.color = 0x40ffffff
+        paint.color = Color.BLACK
         paint.style = Paint.Style.FILL
         paint.typeface = typeface
         canvas.drawCircle(0f, 0f, 1f, paint)
-        paint.color = 0x20000000
-        canvas.drawCircle(0f, 0f, 0.8f, paint)
+        /*paint.color = 0x20000000
+        canvas.drawCircle(0f, 0f, 0.8f, paint)*/
         paint.color = color
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 0.005f
@@ -119,7 +122,7 @@ class SpeedView @JvmOverloads constructor(
         canvas.translate(width / 2, height)
         canvas.scale(.5f * width, -1f * height)
         canvas.rotate(90 - 180.toFloat() * (value / maxValue.toFloat()))
-        paint.color = -0x7767
+        paint.color = Color.WHITE
         paint.strokeWidth = 0.02f
         canvas.drawLine(0.01f, 0f, 0f, 1f, paint)
         canvas.drawLine(-0.01f, 0f, 0f, 1f, paint)
@@ -170,7 +173,7 @@ class SpeedView @JvmOverloads constructor(
         }
         objectAnimator = ObjectAnimator.ofInt(this, "value", this.value, value)
         objectAnimator?.setDuration(100 + Math.abs(this.value - value) * 5.toLong())
-        objectAnimator?.setInterpolator(DecelerateInterpolator())
+        objectAnimator?.setInterpolator(DecelerateInterpolator(0.05f))
         objectAnimator?.start()
     }
 
