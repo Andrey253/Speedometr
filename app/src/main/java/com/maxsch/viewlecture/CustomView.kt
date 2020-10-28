@@ -25,7 +25,7 @@ class CustomView @JvmOverloads constructor(
     private var size = 320
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
-    var state = SampleViewState.NOT_CLICKED
+
 
     private var bgColor: Int? = null
     private var borderColor = Color.BLACK
@@ -46,38 +46,9 @@ class CustomView @JvmOverloads constructor(
         }
     }
 
-    fun changeState(state: SampleViewState) {
-        this.state = state
-        updatePaintByState()
-    }
 
-    private fun updatePaintByState() {
-        borderColor = when (state) {
-            SampleViewState.NOT_CLICKED -> Color.BLACK
-            SampleViewState.CLICKED_ONCE -> Color.MAGENTA
-            SampleViewState.CLICKED_MANY_TIMES -> Color.YELLOW
-        }
-        invalidate()
-    }
 
-    override fun onSaveInstanceState(): Parcelable? =
-        Bundle().apply {
-            putInt(VIEW_STATE_KEY, state.ordinal)
-            putParcelable(SUPER_STATE, super.onSaveInstanceState())
-        }
 
-    override fun onRestoreInstanceState(state: Parcelable?) {
-        var superState = state
-
-        if (state is Bundle) {
-            val stateInt = state.getInt(VIEW_STATE_KEY)
-            this.state = SampleViewState.getFromOrdinal(stateInt)
-            changeState(this.state)
-            superState = state.getParcelable(SUPER_STATE)
-        }
-
-        super.onRestoreInstanceState(superState)
-    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val width = measureDimension(size, widthMeasureSpec)

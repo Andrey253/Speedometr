@@ -5,26 +5,34 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.maxsch.viewlecture.CustomView
+    <com.maxsch.viewlecture.SpeedView
         android:id="@+id/custom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp" />
 
-    <com.maxsch.viewlecture.CustomCompoundView
-        android:id="@+id/compound"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/brake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:layout_marginTop="240dp"
+            android:layout_marginLeft="40dp"
+            android:text="brake" />
+        <Button
+            android:id="@+id/acselerator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:layout_marginTop="240dp"
+            android:layout_marginLeft="40dp"
+            android:text="accelerator " />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/recyclerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_marginBottom="40dp"
-        android:text="open recycler layout" />
+
+
 </FrameLayout>
