@@ -14,25 +14,27 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="314dp">
+
         <Button
             android:id="@+id/brake"
+            android:onClick="brake"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|center"
+            android:layout_marginLeft="80dp"
             android:layout_marginTop="240dp"
-            android:layout_marginLeft="40dp"
             android:text="brake" />
+
         <Button
             android:id="@+id/acselerator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|center"
-            android:layout_marginTop="240dp"
             android:layout_marginLeft="40dp"
+            android:layout_marginTop="240dp"
             android:text="accelerator " />
     </LinearLayout>
-
 
 
 </FrameLayout>

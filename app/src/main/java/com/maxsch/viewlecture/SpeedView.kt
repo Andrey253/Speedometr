@@ -16,6 +16,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnticipateOvershootInterpolator
 import android.view.animation.BounceInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.widget.Button
 import androidx.core.graphics.toColor
 
 class SpeedView @JvmOverloads constructor(
@@ -35,6 +36,7 @@ class SpeedView @JvmOverloads constructor(
     private var markRange = 10
 
     init {
+
         val typedArray = context.obtainStyledAttributes(
             attrs,
             R.styleable.CustomView,
@@ -164,14 +166,10 @@ class SpeedView @JvmOverloads constructor(
         }
         invalidate()
     }
-    fun setIntcolor(value: Int) {
-        if (value > 20 && value < 40 ) this.intcolor = Color.GREEN
-
-        invalidate()
-    }
 
     fun setValue(value: Int) {
         this.value = Math.min(value, maxValue)
+        this.intcolor = Math.max(Color.RED, Color.RED*value/(maxValue-20))
         invalidate()
     }
 
@@ -180,11 +178,7 @@ class SpeedView @JvmOverloads constructor(
         if (objectAnimator != null) {
             objectAnimator!!.cancel()
         }
-        //objectAnimator = ObjectAnimator.ofInt(this, "value", this.value, value)
-        val valuer = PropertyValuesHolder.ofInt("value", this.value, value)
-        println("mytag Color.WHITE = ${0xFFFFFFFF}")
-        val clorox = PropertyValuesHolder.ofInt("intcolor", Color.RED)
-        objectAnimator = ObjectAnimator.ofPropertyValuesHolder(this,valuer,clorox)
+        objectAnimator = ObjectAnimator.ofInt(this, "value", this.value, value)
         objectAnimator?.setDuration(300 + Math.abs(this.value - value) * 5.toLong())
         objectAnimator?.setInterpolator(DecelerateInterpolator(0.05f))
         objectAnimator?.start()
@@ -244,19 +238,6 @@ class SpeedView @JvmOverloads constructor(
         override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
             out.writeInt(value)
-        }
-
-        companion object {
-            val CREATOR: Parcelable.Creator<SavedState?> =
-                object : Parcelable.Creator<SavedState?> {
-                    override fun createFromParcel(`in`: Parcel): SavedState? {
-                        return SavedState(`in`)
-                    }
-
-                    override fun newArray(size: Int): Array<SavedState?> {
-                        return arrayOfNulls(size)
-                    }
-                }
         }
     }
 }
