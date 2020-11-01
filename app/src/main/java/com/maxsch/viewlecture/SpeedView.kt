@@ -1,6 +1,7 @@
 package com.maxsch.viewlecture
 
 import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -15,6 +16,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnticipateOvershootInterpolator
 import android.view.animation.BounceInterpolator
 import android.view.animation.DecelerateInterpolator
+import androidx.core.graphics.toColor
 
 class SpeedView @JvmOverloads constructor(
     context: Context,
@@ -28,6 +30,7 @@ class SpeedView @JvmOverloads constructor(
     private var value = 0
     private var text = "km/h"
     private var color = -0x670050
+    private var intcolor = 0
     private var textColor = -0x6f5f01
     private var markRange = 10
 
@@ -42,10 +45,11 @@ class SpeedView @JvmOverloads constructor(
             val a = context.obtainStyledAttributes(attrs, R.styleable.SpeedView)
             var chars = a.getText(R.styleable.SpeedView_android_text)
             text = chars?.toString() ?: "km/h"
-            maxValue = a.getInt(R.styleable.SpeedView_maxValue, 120)
+            maxValue  = a.getInt(R.styleable.SpeedView_maxValue, 120)
             value = a.getInt(R.styleable.SpeedView_value, 0)
             markRange = a.getInt(R.styleable.SpeedView_markRange, 10)
             color = a.getColor(R.styleable.SpeedView_color, -0x670050)
+            intcolor = a.getInt(R.styleable.SpeedView_intcolor, Color.WHITE)
             textColor = a.getColor(R.styleable.SpeedView_textColor, -0x6f5f01)
             chars = a.getText(R.styleable.SpeedView_fontName)
             if (chars != null) {
@@ -122,7 +126,7 @@ class SpeedView @JvmOverloads constructor(
         canvas.translate(width / 2, height)
         canvas.scale(.5f * width, -1f * height)
         canvas.rotate(90 - 180.toFloat() * (value / maxValue.toFloat()))
-        paint.color = Color.WHITE
+        paint.color = intcolor
         paint.strokeWidth = 0.02f
         canvas.drawLine(0.01f, 0f, 0f, 1f, paint)
         canvas.drawLine(-0.01f, 0f, 0f, 1f, paint)
@@ -160,6 +164,11 @@ class SpeedView @JvmOverloads constructor(
         }
         invalidate()
     }
+    fun setIntcolor(value: Int) {
+        if (value > 20 && value < 40 ) this.intcolor = Color.GREEN
+
+        invalidate()
+    }
 
     fun setValue(value: Int) {
         this.value = Math.min(value, maxValue)
@@ -171,8 +180,12 @@ class SpeedView @JvmOverloads constructor(
         if (objectAnimator != null) {
             objectAnimator!!.cancel()
         }
-        objectAnimator = ObjectAnimator.ofInt(this, "value", this.value, value)
-        objectAnimator?.setDuration(100 + Math.abs(this.value - value) * 5.toLong())
+        //objectAnimator = ObjectAnimator.ofInt(this, "value", this.value, value)
+        val valuer = PropertyValuesHolder.ofInt("value", this.value, value)
+        println("mytag Color.WHITE = ${0xFFFFFFFF}")
+        val clorox = PropertyValuesHolder.ofInt("intcolor", Color.RED)
+        objectAnimator = ObjectAnimator.ofPropertyValuesHolder(this,valuer,clorox)
+        objectAnimator?.setDuration(300 + Math.abs(this.value - value) * 5.toLong())
         objectAnimator?.setInterpolator(DecelerateInterpolator(0.05f))
         objectAnimator?.start()
     }
@@ -216,6 +229,7 @@ class SpeedView @JvmOverloads constructor(
         val savedState =
             state as SavedState
         super.onRestoreInstanceState(savedState.superState)
+        println("mytag onRestoreInstanceState value = $value")
         setValue(savedState.value)
     }
 
