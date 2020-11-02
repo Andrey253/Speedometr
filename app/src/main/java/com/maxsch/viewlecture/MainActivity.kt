@@ -15,7 +15,5 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.frame_layout)
     }
-    fun brake () {
 
-    }
 }
